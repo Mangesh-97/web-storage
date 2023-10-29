@@ -4,6 +4,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { FormComponent } from './shared/components/form/form.component';
 import { DeleteConfirmComponent } from './shared/components/delete-confirm/delete-confirm.component';
+import { SnackbarService } from './shared/services/snackbar.service';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,8 @@ export class AppComponent implements OnInit {
   searchVal!: string
   empArray!: any[]
   constructor(
-    private _matDialog: MatDialog
+    private _matDialog: MatDialog,
+    private _snackBarService: SnackbarService
   ) { }
 
 
@@ -51,25 +53,6 @@ export class AppComponent implements OnInit {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   onDelete(index: number) {
 
     this._matDialog.open(DeleteConfirmComponent).afterClosed()
@@ -78,6 +61,7 @@ export class AppComponent implements OnInit {
 
           this.empArray = this.empArray.filter((e, i) => i !== index)
           localStorage.setItem('array', JSON.stringify(this.empArray))
+          this._snackBarService.openSnackBar('Employee Data Deleted....!!!')
         }
       })
   }
