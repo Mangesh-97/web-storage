@@ -1,0 +1,155 @@
+<form [formGroup]="empForm" (ngSubmit)="onSubmitEmpForm()">
+    <mat-dialog-content>
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <h2>Employee Form</h2>
+            <button mat-icon-button mat-dialog-close>
+
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+        <hr>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">First Name</label>
+                    <input type="text" class="form-control" formControlName="fname">
+
+                    <p *ngIf="empForm.get('fname')?.hasError('required') && empForm.get('fname')?.touched"
+                        class="text-danger">
+                        This Field is Mandatory
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="">Last Name</label>
+                    <input type="text" class="form-control" formControlName="lname">
+                    <p *ngIf="empForm.get('lname')?.hasError('required') && empForm.get('lname')?.touched"
+                        class="text-danger">
+                        This Field is Mandatory
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" *ngFor="let email of emailArray.controls;index as i" formArrayName="email">
+            <label for="">{{i + 1}}st Email</label>
+            <input type="text" class="form-control mb-2" [formControlName]="i">
+
+            <p *ngIf="emailArray.controls[i]?.hasError('required') && emailArray.controls[i].touched"
+                class="text-danger">
+                This
+                Field is
+                Mandatory</p>
+
+            <p *ngIf="emailArray.controls[i]?.hasError('email') &&emailArray.controls[i].touched" class="text-danger">
+                please provide valid email
+            </p>
+
+            <div class="text-right">
+                <button class="btn btn-outline-secondary mr-2" type="button" *ngIf="emailArray.length > 1 && (i !== 0)"
+                    (click)="onReset(i)">reset</button>
+                <button mat-mini-fab type="button" *ngIf="emailArray.length > 1 && (i !== 0)" (click)="removeEmail(i)"
+                    color="warn">
+                    <mat-icon>remove</mat-icon>
+                </button>
+            </div>
+
+        </div>
+        <div class="text-right mb-2">
+            <button mat-mini-fab (click)="onAddEmail()" [disabled]="emailArray.length >= 5" type="button"
+                color="primary">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+        <div class="form-group">
+            <label for="">Contact</label>
+            <input type="text" class="form-control" formControlName="contact">
+            <p *ngIf="empForm.get('contact')?.hasError('required') && empForm.get('contact')?.touched "
+                class="text-danger">
+                This Field is Mandatory
+            </p>
+            <p *ngIf="empForm.get('contact')?.hasError('minlength') && empForm.get('contact')?.dirty"
+                class="text-danger">
+                length should be 10
+            </p>
+            <p *ngIf="empForm.get('contact')?.hasError('pattern') && empForm.get('contact')?.dirty" class="text-danger">
+                please enter valid number
+            </p>
+
+
+        </div>
+        <div class="form-group">
+            <label for="">Age</label>
+            <input type="text" formControlName="age" class="form-control">
+            <p *ngIf="empForm.get('age')?.hasError('required') && empForm.get('age')?.touched " class="text-danger">
+                This Field is Mandatory
+            </p>
+        </div>
+        <p> Gender</p>
+        <div class="form-group" *ngFor="let gen of gender">
+            <input type="radio" formControlName="gender" [value]="gen">
+            <label for="" class="ml-2">{{gen}}</label>
+            <p *ngIf="empForm.get('gender')?.hasError('required') && empForm.get('gender')?.touched "
+                class="text-danger">
+                This Field is Mandatory
+            </p>
+        </div>
+        <div class="form-group">
+
+            <input type="checkbox" formControlName="additionalInfo"> Addition Information
+        </div>
+        <ng-container *ngIf="empForm.get('additionalInfo')?.value">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="">Salary</label>
+                        <input type="text" formControlName="salary" class="form-control">
+                        <p *ngIf="empForm.get('salary')?.hasError('required') && empForm.get('salary')?.touched"
+                            class="text-danger">This fild is
+                            Mandatory</p>
+
+                        <p *ngIf="empForm.get('salary')?.hasError('pattern') && empForm.get('salary')?.dirty"
+                            class="text-danger">
+                            only number
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <!-- <div class="form-group">
+                        <input type="file" class="form-control" formControlName="files">
+                    </div> -->
+                    <div class="form-group">
+                        <label for="">Notic Period</label>
+                        <input type="text" formControlName="noticPeriod" class="form-control">
+                        <p *ngIf="empForm.get('noticPeriod')?.hasError('required') && empForm.get('noticPeriod')?.touched"
+                            class="text-danger">this
+                            fild is
+                            Mandatory</p>
+                        <p *ngIf="empForm.get('noticPeriod')?.hasError('maxlength') && empForm.get('noticPeriod')?.dirty"
+                            class="text-danger">
+                            1-2 Digit Number
+                        </p>
+                        <p *ngIf="empForm.get('noticPeriod')?.hasError('pattern') && empForm.get('noticPeriod')?.dirty"
+                            class="text-danger">
+                            only number
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+
+
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button class="btn btn-primary w-100 mb-2"
+            [ngClass]="{'btn-primary' : !empObj,'btn-warning' : empObj }">{{!empObj ?
+            'Submit' :
+            'Update'}}</button>
+        <button type="button" mat-stroked-button class="w-100" mat-dialog-close>Cancel</button>
+    </mat-dialog-actions>
+</form>
