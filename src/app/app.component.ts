@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
   }
 
   getLocalStorageData() {
-    this.empArray = JSON.parse(localStorage.getItem('array')!)
+    this.empArray = JSON.parse(localStorage.getItem('array')!) || []
   }
 
   onAddEmp() {

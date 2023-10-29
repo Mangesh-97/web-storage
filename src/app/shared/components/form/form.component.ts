@@ -3,7 +3,6 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { CustomRegex } from '../../const/validators_regexp';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
@@ -53,7 +52,7 @@ export class FormComponent implements OnInit {
   }
 
   getLocalStorageData() {
-    this.empArray = JSON.parse(localStorage.getItem('array')!)
+    this.empArray = JSON.parse(localStorage.getItem('array')!) || []
   }
 
   createEmpForm(): FormGroup {
@@ -72,7 +71,7 @@ export class FormComponent implements OnInit {
 
     if (this.empForm.valid) {
 
-      this.empArray = JSON.parse(localStorage.getItem('array')!) || []
+
       if (!this.empObj) {
 
         // console.log(this.empForm.value);
