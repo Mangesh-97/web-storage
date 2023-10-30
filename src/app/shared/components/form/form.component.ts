@@ -70,15 +70,14 @@ export class FormComponent implements OnInit {
   onSubmitEmpForm() {
 
     if (this.empForm.valid) {
-
-
       if (!this.empObj) {
 
-        // console.log(this.empForm.value);
         let obj = {
           ...this.empForm.value,
           id: this.uuidv4()
         }
+
+
         this.empArray.unshift(obj)
         this._matDialogRef.close(true)
         localStorage.setItem('array', JSON.stringify(this.empArray))
@@ -141,4 +140,7 @@ export class FormComponent implements OnInit {
         return v.toString(16);
       });
   }
+
+
+
 }

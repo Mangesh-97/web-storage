@@ -7,22 +7,14 @@ export class FilterPipe implements PipeTransform {
 
   transform(value: any[], searchVal: string): any[] {
 
+    if (!value) return [];
+    if (!searchVal) return value;
 
-    if (!value) {
-      return []
-    }
-
-    if (!searchVal) {
-      return value
-    }
-
-
-    let filterarr = value.filter(e => {
-      return e.fname.toLowerCase().startsWith(searchVal.toLowerCase())
+    return value.filter(e => {
+      let fname = e.fname.toLowerCase().startsWith(searchVal.toLowerCase())
+      let notice = e.noticPeriod.toLowerCase().startsWith(searchVal.toLowerCase())
+      return fname || notice
     });
 
-    return filterarr
-
   }
-
 }

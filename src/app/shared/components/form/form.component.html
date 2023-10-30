@@ -89,7 +89,7 @@
                 This Field is Mandatory
             </p>
         </div>
-        <p> Gender</p>
+        <label> Gender</label>
         <div class="form-group" *ngFor="let gen of gender">
             <input type="radio" formControlName="gender" [value]="gen">
             <label for="" class="ml-2">{{gen}}</label>
